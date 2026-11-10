@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вправи для очей: Бджілка та спокійна музика</title>
+    <style>
+        :root {
+            --bg-color: #0d1b2a;
+            --card-bg: rgba(27, 38, 59, 0.95);
+            --accent-yellow: #ffd166;
+            --accent-pink: #ff5964;
+            --accent-cyan: #35a7ff;
+            --accent-green: #6bf178;
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 🎨 Пуантилістичний фон (тисячі крапок у стилі Сера) */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle, var(--accent-pink) 4px, transparent 4px),
+                radial-gradient(circle, var(--accent-cyan) 5px, transparent 5px),
+                radial-gradient(circle, var(--accent-yellow) 3px, transparent 3px),
+                radial-gradient(circle, var(--accent-green) 4px, transparent 4px),
+                radial-gradient(circle, #ffffff 2px, transparent 2px);
+            background-size: 45px 45px, 65px 65px, 35px 35px, 55px 55px, 25px 25px;
+            background-position: 0 0, 20px 20px, 10px 10px, 35px 5px, 15px 25px;
+            opacity: 0.45;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle, #7209b7 3px, transparent 3px),
+                radial-gradient(circle, #4cc9f0 4px, transparent 4px),
+                radial-gradient(circle, #f72585 3px, transparent 3px);
+            background-size: 35px 35px, 45px 45px, 55px 55px;
+            background-position: 15px 10px, 5px 30px, 25px 15px;
+            opacity: 0.35;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            background: var(--card-bg);
+            border: 6px dotted var(--accent-yellow);
+            padding: 25px 35px;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 25px rgba(255, 209, 102, 0.2);
+            max-width: 650px;
+            width: 95%;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+            color: var(--accent-yellow);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .stage {
+            margin: 15px auto;
+            width: 100%;
+            height: 240px;
+            border-radius: 25px;
+            background: radial-gradient(circle, rgba(53, 167, 255, 0.15) 0%, rgba(13, 27, 42, 0.7) 90%);
+            border: 4px dotted var(--accent-pink);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bee {
+            position: absolute;
+            font-size: 45px;
+            user-select: none;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+            will-change: left, top;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+        }
+
+        .timer-display {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--accent-pink);
+            margin: 5px 0;
+            text-shadow: 0 0 15px rgba(255, 89, 100, 0.6);
+        }
+
+        .status-msg {
+            font-size: 1.05rem;
+            min-height: 28px;
+            margin-bottom: 15px;
+            color: #e0e6ed;
+        }
+
+        .btn-start {
+            background-color: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 12px 36px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 89, 100, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            background-color: #ff3344;
+            box-shadow: 0 8px 25px rgba(255, 89, 100, 0.7);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🐝 Вправи для очей: Бджілка під релакс-музику</h1>
+        <div class="subtitle">Стежте очима за рухом бджілки під спокійний музичний супровід</div>
+
+        <div class="stage">
+            <div id="bee" class="bee">🐝</div>
+        </div>
+
+        <div id="timer" class="timer-display">20</div>
+        <div id="status" class="status-msg">Натисніть «Почати вправу», щоб увімкнути музику та рух!</div>
+
+        <button id="startBtn" class="btn-start" onclick="startExercise()">Почати вправу</button>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        let isRunning = false;
+        let timerInterval = null;
+        let musicTimer = null;
+        let beeAnimFrame = null;
+
+        // Гармонійні розслаблюючі ноти (пентатоніка для медитативного ефекту)
+        const ambientNotes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // Генерація м'якого амбієнтного звуку (теплий синусоїдальний синтезатор із реверберацією/затуханням)
+        function playAmbientSound(freq) {
+            if (!audioCtx) return;
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+
+                osc.type = 'sine'; // Найм'якша звукова хвиля
+                osc.frequency.value = freq;
+
+                // Плавне розгортання та довге затухання для створення ефекту спокійної музики
+                let now = audioCtx.currentTime;
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.linearRampToValueAtTime(0.05, now + 0.6);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.0);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 3.0);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        // Постійний потік спокійної музики
+        function startCalmMusic() {
+            // Граємо першу ноту одразу
+            playAmbientSound(ambientNotes[Math.floor(Math.random() * ambientNotes.length)]);
+
+            // Далі плавно створюємо нові ноти кожні 1.5 секунди
+            musicTimer = setInterval(() => {
+                if (!isRunning) return;
+                let randomNote = ambientNotes[Math.floor(Math.random() * ambientNotes.length)];
+                playAmbientSound(randomNote);
+            }, 1500);
+        }
+
+        // Фінальний гармонійний розслаблюючий акорд
+        function playFinalChord() {
+            const chord = [261.63, 329.63, 392.00, 523.25, 659.25];
+            chord.forEach((freq, i) => {
+                setTimeout(() => {
+                    playAmbientSound(freq);
+                }, i * 400);
+            });
+        }
+
+        // Плавний рух бджілки по екрану
+        function startBeeMovement() {
+            const bee = document.getElementById('bee');
+            const stage = bee.parentElement;
+            let startTime = performance.now();
+
+            function animateBee(currentTime) {
+                if (!isRunning) return;
+                let elapsed = (currentTime - startTime) / 1000;
+                
+                const stageWidth = stage.clientWidth - 60;
+                const stageHeight = stage.clientHeight - 60;
+                
+                // Плавна траєкторія (зміщення за синусоїдою)
+                let x = stageWidth / 2 + (stageWidth / 2.3) * Math.sin(elapsed * 1.0) * Math.cos(elapsed * 0.4);
+                let y = stageHeight / 2 + (stageHeight / 2.5) * Math.sin(elapsed * 0.7);
+                
+                bee.style.left = x + 30 + 'px';
+                bee.style.top = y + 30 + 'px';
+
+                beeAnimFrame = requestAnimationFrame(animateBee);
+            }
+
+            beeAnimFrame = requestAnimationFrame(animateBee);
+        }
+
+        function startExercise() {
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            if (isRunning) return;
+            isRunning = true;
+
+            const startBtn = document.getElementById('startBtn');
+            const timer = document.getElementById('timer');
+            const status = document.getElementById('status');
+
+            startBtn.classList.add('hidden');
+            status.textContent = "Стежте очима за бджілкою під спокійну мелодію...";
+
+            startCalmMusic();
+            startBeeMovement();
+
+            let timeLeft = 20;
+            timer.textContent = timeLeft;
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timer.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    clearInterval(musicTimer);
+                    cancelAnimationFrame(beeAnimFrame);
+                    isRunning = false;
+
+                    timer.textContent = "🌟";
+                    status.textContent = "Чудово! Очі відпочили, продовжуємо урок!";
+                    startBtn.textContent = "Повторити знову";
+                    startBtn.classList.remove('hidden');
+
+                    playFinalChord();
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
